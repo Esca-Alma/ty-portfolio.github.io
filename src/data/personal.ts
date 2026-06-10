@@ -24,11 +24,11 @@ export const personalData = {
     frontend: [
       { name: "HTML / CSS", years: 5 },
       { name: "JavaScript", years: 5 },
-      { name: "React", years: 3 }
+      { name: "React", years: 2.5 }
     ],
     infrastructure: [
       { name: "Linux", years: 5 },
-      { name: "Azure", years: 3 },
+      { name: "Azure", years: 2 },
       { name: "AWS", years: 1 }
     ],
     database: [
