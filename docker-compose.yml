@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  # 開発用環境（ホットリロード有効）
+  # 起動コマンド: docker-compose up frontend-dev
+  frontend-dev:
+    build:
+      context: .
+      target: development
+    container_name: portforio-frontend-dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NODE_ENV=development
+      # Windows/Mac環境などでのホットリロードを安定させるための設定
+      - WATCHPACK_POLLING=true
+
+  # 本番ビルド動作確認用環境（GitHub Pagesデプロイと同じ静的ファイル配信）
+  # 起動コマンド: docker-compose up frontend-prod
+  frontend-prod:
+    build:
+      context: .
+      target: production
+    container_name: portforio-frontend-prod
+    ports:
+      - "8080:80"
