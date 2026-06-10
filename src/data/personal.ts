@@ -19,7 +19,8 @@ export const personalData = {
       { name: "PHP", years: 3 },
       { name: "Python", years: 3 },
       { name: "Spring Boot", years: 3 },
-      { name: "Phalcon (PHP)", years: 3 }
+      { name: "Phalcon (PHP)", years: 3 },
+      { name: "Next.js", years: 1 }
     ],
     frontend: [
       { name: "HTML / CSS", years: 5 },
@@ -85,6 +86,22 @@ export const personalData = {
         "某自動車会社の基幹システム刷新PJへの参画。詳細設計から現場でのリリースまでを経験"
       ],
       techStack: ["Java", "Spring Framework", "Oracle", "Windows"]
+    },
+
+    {
+      title: "副業　カラーコンタクトレンズ、美容機器を販売する EC サイトの開発・保守",
+      period: "2024年2月～2025年2月",
+      company: "",
+      summary: "美容商品のECサイト構築",
+      background: "カラーコンタクトレンズ、美容機器を販売するECサイトの新規構築",
+      role: "システムエンジニア (詳細設計、コーディング、テスト)",
+      results: [
+        "WordPress(PHP),XServerの環境におけるECサイトの構築",
+        "デザイナーさんが作成したデザインを基にECサイトのデザインを実装、フロントエンド実装に合わせたバックエンド側の構築",
+        "要件に基づいた各種設定、商品登録、配送方法等の設定作業",
+        "サイトリリース後の保守運用対応"
+      ],
+      techStack: ["WordPress", "PHP", "XServer", "HTML/CSS", "JavaScript"]
     }
   ]
 };
