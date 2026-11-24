@@ -75,6 +75,14 @@ export default function AgenciesPage() {
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8 font-sans">
       <div className="max-w-4xl mx-auto">
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-6 pb-4 border-b border-gray-800 text-sm">
+          <Link href="/" className="text-gray-300 hover:text-teal-400 transition-colors">
+            ← ポートフォリオトップへ戻る
+          </Link>
+          <Link href="/works/gtfs-maker" className="text-gray-300 hover:text-teal-400 transition-colors">
+            GTFS Maker の解説を見る
+          </Link>
+        </div>
         <h1 className="text-4xl font-bold text-teal-400 mb-8">バス会社 (Agency) 管理</h1>
 
         <div className="bg-gray-800 p-6 rounded-xl shadow-lg mb-8 border border-gray-700">

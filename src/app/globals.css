@@ -1,26 +1,68 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* 公共交通の案内サイン・路線図をモチーフにした配色トークン */
+  --color-platform: #F4F6F6;
+  --color-surface: #FFFFFF;
+  --color-ink: #1E2A30;
+  --color-line: #12795A;
+  --color-line-hover: #0E6047;
+  --color-line-tint: #E5F1ED;
+  --color-signal: #F2B705;
+  --color-muted: #58656C;
+  --color-rule: #D3DADC;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--color-platform);
+  --color-foreground: var(--color-ink);
+  --font-sans: var(--font-biz-udpgothic), "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+  --font-display: var(--font-overpass), var(--font-biz-udpgothic), sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 4.5rem;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-platform);
+  color: var(--color-ink);
+  font-family: var(--font-biz-udpgothic), "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+  line-height: 1.9;
+  text-rendering: optimizeLegibility;
+}
+
+.font-display {
+  font-family: var(--font-overpass), var(--font-biz-udpgothic), sans-serif;
+}
+
+/* キーボード操作時のフォーカス表示を明瞭にする */
+:focus-visible {
+  outline: 2px solid var(--color-line);
+  outline-offset: 3px;
+}
+
+/* ページ読み込み時に路線が左から伸びる1回だけのアニメーション */
+@keyframes route-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.route-line-animate {
+  transform-origin: left center;
+  animation: route-draw 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .route-line-animate {
+    animation: none;
+  }
 }

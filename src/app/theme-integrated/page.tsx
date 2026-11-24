@@ -1,196 +1,265 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-import { personalData } from "@/data/personal";
-import { ChevronRight, ExternalLink, Code2, Layers, Cpu, Server, Database } from "lucide-react";
+import RouteLine from "@/components/RouteLine";
+import {
+  profile,
+  careerSummary,
+  strengths,
+  skillGroups,
+  levelLabel,
+  qualifications,
+  careers,
+  PHASES,
+  type SkillLevel,
+} from "@/data/personal";
+
+export const metadata: Metadata = {
+  title: "職務経歴 | T.Y. Portfolio",
+  description:
+    "システムエンジニア T.Y. の職務要約、技術スタック、2017年からの開発経歴の詳細です。",
+};
+
+const levelBadgeStyle: Record<SkillLevel, string> = {
+  current: "bg-[#E5F1ED] text-[#12795A] border-[#12795A]/40 font-bold",
+  work: "bg-[#F4F6F6] text-[#1E2A30] border-[#D3DADC] font-medium",
+  learning: "bg-white text-[#58656C] border-[#D3DADC] font-normal",
+};
 
 export default function ThemeIntegrated() {
-  const { profile, skills, projects } = personalData;
-
   return (
-    <div className="min-h-screen bg-[#FDFDFD] text-[#37352f] font-sans selection:bg-[#bae3ff] pb-24">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-[#FDFDFD]/90 backdrop-blur border-b border-[#e9e9e7]">
-        <div className="max-w-[1000px] mx-auto px-6 h-14 flex items-center justify-between">
-          <Link href="/" className="text-sm font-semibold text-[#37352f]/60 hover:text-[#37352f] transition-colors flex items-center gap-1">
-            ← ホームに戻る
-          </Link>
-          <div className="text-xs text-[#37352f]/40 font-mono tracking-wider">
-            PORTFOLIO_CV.VER_1.0
-          </div>
+    <main className="max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-14 space-y-16">
+      {/* パンくず導線 */}
+      <div>
+        <Link
+          href="/"
+          className="inline-flex items-center text-sm font-bold text-[#12795A] hover:underline"
+        >
+          トップページに戻る
+        </Link>
+      </div>
+
+      {/* ページ見出し */}
+      <header className="space-y-4 pb-8 border-b border-[#D3DADC]">
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="font-display font-bold text-sm text-[#12795A]">
+            Curriculum Vitae
+          </span>
+          <span className="text-xs px-2.5 py-1 rounded bg-white border border-[#D3DADC] text-[#1E2A30]">
+            {profile.status}
+          </span>
         </div>
-      </nav>
+        <h1 className="text-3xl sm:text-4xl font-bold text-[#1E2A30] tracking-tight">
+          {profile.initials} の職務経歴
+        </h1>
+        <p className="text-base text-[#1E2A30] leading-relaxed max-w-3xl">
+          {profile.lead}
+        </p>
+      </header>
 
-      {/* Main Container */}
-      <main className="max-w-[1000px] mx-auto px-6 pt-16 space-y-20">
+      {/* キャリア路線図 */}
+      <RouteLine />
 
-        {/* Header Section (Notion Style) */}
-        <header className="space-y-6">
-          <div className="text-[80px] leading-none select-none mb-6">🧑‍💻</div>
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-[#37352f]">
-            {profile.name} の職務経歴
-          </h1>
-          <div className="flex flex-wrap gap-2 pb-6 border-b border-[#e9e9e7]">
-            <span className="px-2 py-1 bg-[#f1f1ef] text-[#37352f] text-sm rounded font-medium border border-[#e9e9e7]">
-              希望職種: {profile.role}
-            </span>
-            <span className="px-2 py-1 bg-[#e8f3eb] text-[#294c36] text-sm rounded font-medium border border-[#cce6d2]">
-              ステータス: 副業稼働できる案件を探しています
-            </span>
-          </div>
-          <p className="text-xl text-[#37352f]/80 font-medium leading-relaxed max-w-3xl">
-            {profile.catchphrase}
+      {/* 職務要約 */}
+      <section className="space-y-4">
+        <h2 className="text-xl sm:text-2xl font-bold text-[#1E2A30]">
+          職務要約
+        </h2>
+        <div className="bg-white border border-[#D3DADC] rounded-lg p-6 space-y-4 text-base text-[#1E2A30] leading-[1.9]">
+          {careerSummary.map((p, idx) => (
+            <p key={idx}>{p}</p>
+          ))}
+        </div>
+      </section>
+
+      {/* 活かせる経験・得意分野 */}
+      <section className="space-y-4">
+        <h2 className="text-xl sm:text-2xl font-bold text-[#1E2A30]">
+          活かせる経験・強み
+        </h2>
+        <dl className="grid md:grid-cols-2 gap-6 bg-white border border-[#D3DADC] rounded-lg p-6">
+          {strengths.map((s) => (
+            <div key={s.title} className="border-l-4 border-[#12795A] pl-4 space-y-1">
+              <dt className="font-bold text-base text-[#1E2A30]">{s.title}</dt>
+              <dd className="text-sm text-[#1E2A30] leading-relaxed">{s.body}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      {/* 開発経歴（会社・契約ごと） */}
+      <section className="space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#1E2A30]">
+            開発経歴
+          </h2>
+          <p className="text-xs text-[#58656C]">
+            ※公開サイトのため、所属企業名および顧客名は一般化して記載しています
           </p>
-        </header>
+        </div>
 
-        {/* About Section */}
-        <section className="bg-white p-8 rounded-xl border border-[#e9e9e7] shadow-sm">
-          <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-            <span className="text-blue-500">■</span> 職務要約
-          </h2>
-          <p className="leading-loose text-[#37352f]/80 mb-8 whitespace-pre-wrap">
-            {profile.about}
-          </p>
-
-          <div className="bg-[#f7f6f3] p-6 rounded-lg">
-            <h3 className="font-bold text-[#37352f] mb-4 text-sm flex items-center gap-2">
-              💡 活かせる経験・強み
-            </h3>
-            <ul className="space-y-3">
-              {profile.strengths.map((s, i) => (
-                <li key={i} className="flex gap-3 text-[#37352f]/80 text-sm">
-                  <ChevronRight className="w-5 h-5 shrink-0 text-[#37352f]/40" />
-                  <span className="pt-0.5 leading-relaxed">{s}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
-        {/* Skills Section (Standard Grid + Notion Cleanliness) */}
-        <section>
-          <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-            <span className="text-emerald-500">■</span> 技術スタック・保有資格
-          </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {[
-              { title: "バックエンド", items: skills.backend, icon: <Server className="w-5 h-5" /> },
-              { title: "フロントエンド", items: skills.frontend, icon: <Cpu className="w-5 h-5" /> },
-              { title: "インフラ", items: skills.infrastructure, icon: <Layers className="w-5 h-5" /> },
-              { title: "データベース", items: skills.database, icon: <Database className="w-5 h-5" /> },
-            ].map((group, idx) => (
-              <div key={idx} className="bg-white p-5 rounded-xl border border-[#e9e9e7] shadow-sm flex flex-col h-full">
-                <div className="flex items-center gap-2 text-[#37352f] mb-4 pb-3 border-b border-[#e9e9e7]">
-                  {group.icon}
-                  <h3 className="font-bold text-sm text-center">{group.title}</h3>
-                </div>
-                <ul className="space-y-3 flex-1">
-                  {group.items.map((skill, j) => (
-                    <li key={j} className="flex justify-between items-center group/item hover:bg-[#f7f6f3] px-2 py-1 rounded transition-colors -mx-2 text-sm">
-                      <span className="font-medium text-[#37352f]/90">{skill.name}</span>
-                      <span className="text-[#37352f]/50 font-mono">{skill.years}年</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-4 p-4 bg-white border border-[#e9e9e7] rounded-xl shadow-sm text-sm">
-            <strong className="text-[#37352f] mr-4">保有資格:</strong>
-            <span className="text-[#37352f]/80">{skills.qualifications.join(" / ")}</span>
-          </div>
-        </section>
-
-        {/* Projects Section */}
-        <section>
-          <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-            <span className="text-purple-500">■</span> 職務経歴・実績詳細
-          </h2>
-          <div className="space-y-6">
-            {projects.map((project, i) => (
-              <div key={i} className="bg-white rounded-xl border border-[#e9e9e7] shadow-sm overflow-hidden flex flex-col md:flex-row">
-                {/* Timeline / Overview Side */}
-                <div className="bg-[#fbfbfa] p-6 md:w-1/3 border-b md:border-b-0 md:border-r border-[#e9e9e7]">
-                  <div className="text-xs font-mono text-[#37352f]/50 mb-2">{project.period}</div>
-                  <h3 className="text-lg font-bold text-[#37352f] mb-2 leading-tight">{project.company}</h3>
-                  <div className="text-sm font-medium text-blue-600 mb-4">{project.title}</div>
-                  <p className="text-xs text-[#37352f]/70 leading-relaxed">{project.summary}</p>
-                </div>
-
-                {/* Details Side */}
-                <div className="p-6 md:w-2/3 space-y-6">
-                  <div className="grid sm:grid-cols-2 gap-6">
-                    <div>
-                      <h4 className="text-xs font-bold text-[#37352f]/50 uppercase tracking-widest mb-2">背景・課題</h4>
-                      <p className="text-sm text-[#37352f]/90 leading-relaxed">{project.background}</p>
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-bold text-[#37352f]/50 uppercase tracking-widest mb-2">担当業務</h4>
-                      <p className="text-sm text-[#37352f]/90 leading-relaxed">{project.role}</p>
-                    </div>
+        <div className="space-y-8">
+          {careers.map((c) => (
+            <article
+              key={c.id}
+              className="bg-white border border-[#D3DADC] rounded-lg overflow-hidden"
+            >
+              {/* 所属ヘッダー */}
+              <div className="bg-[#F4F6F6] px-6 py-4 border-b border-[#D3DADC] flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                  <div className="flex flex-wrap items-center gap-2.5">
+                    <h3 className="text-lg sm:text-xl font-bold text-[#1E2A30]">
+                      {c.org}
+                    </h3>
+                    <span className="text-xs px-2 py-0.5 rounded bg-white border border-[#D3DADC] text-[#1E2A30]">
+                      {c.employment}
+                    </span>
                   </div>
+                  <p className="text-sm text-[#58656C] mt-1">{c.summary}</p>
+                </div>
+                <div className="font-display font-bold text-sm text-[#12795A] shrink-0">
+                  {c.period}
+                </div>
+              </div>
 
+              <div className="p-6 space-y-6">
+                {/* 役割・規模・担当工程・使用技術 */}
+                <div className="grid sm:grid-cols-3 gap-4 pb-5 border-b border-[#D3DADC] text-sm">
                   <div>
-                    <h4 className="text-xs font-bold text-[#37352f]/50 uppercase tracking-widest mb-3">主な実績・取り組み</h4>
-                    <ul className="space-y-2">
-                      {project.results.map((res, j) => (
-                        <li key={j} className="flex gap-2 text-sm text-[#37352f]/90">
-                          <span className="text-[#37352f]/30">-</span>
-                          <span className="leading-relaxed">{res}</span>
-                        </li>
-                      ))}
+                    <p className="text-xs font-bold text-[#58656C]">役割・規模</p>
+                    <p className="text-[#1E2A30] mt-1">
+                      役割：{c.role} ／ チーム規模：{c.scale}
+                    </p>
+                  </div>
+                  <div className="sm:col-span-2">
+                    <p className="text-xs font-bold text-[#58656C] mb-1.5">
+                      担当工程
+                    </p>
+                    <ul className="flex flex-wrap gap-1.5">
+                      {PHASES.map((phase) => {
+                        const active = c.phases.includes(phase);
+                        return (
+                          <li
+                            key={phase}
+                            className={`text-xs px-2.5 py-0.5 rounded border ${
+                              active
+                                ? "bg-[#E5F1ED] text-[#12795A] border-[#12795A]/40 font-bold"
+                                : "bg-[#F4F6F6] text-[#58656C]/60 border-[#D3DADC]"
+                            }`}
+                          >
+                            {phase}
+                          </li>
+                        );
+                      })}
                     </ul>
                   </div>
+                </div>
 
-                  <div className="pt-4 border-t border-[#e9e9e7]">
-                    <div className="flex flex-wrap gap-2">
-                      {project.techStack.map((tech, j) => (
-                        <span key={j} className="px-2 py-1 bg-[#f1f1ef] text-[#37352f]/80 text-xs rounded border border-[#e9e9e7]">
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
+                {/* プロジェクト一覧 */}
+                <div className="space-y-5">
+                  <h4 className="text-xs font-bold text-[#58656C]">
+                    担当プロジェクト・取り組み
+                  </h4>
+                  <ol className="space-y-4">
+                    {c.projects.map((proj) => (
+                      <li
+                        key={`${proj.period}-${proj.name}`}
+                        className="border-l-2 border-[#D3DADC] pl-4 space-y-1"
+                      >
+                        <div className="flex flex-wrap items-baseline justify-between gap-2">
+                          <p className="font-bold text-base text-[#1E2A30]">
+                            {proj.name}
+                          </p>
+                          <span className="font-display text-xs text-[#58656C]">
+                            {proj.period}
+                          </span>
+                        </div>
+                        <p className="text-sm text-[#1E2A30] leading-relaxed">
+                          {proj.body}
+                        </p>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+
+                {/* 環境・技術 */}
+                <div className="pt-4 border-t border-[#D3DADC]">
+                  <p className="text-xs font-bold text-[#58656C] mb-2">
+                    使用言語・フレームワーク・環境
+                  </p>
+                  <ul className="flex flex-wrap gap-1.5">
+                    {c.tech.map((t) => (
+                      <li
+                        key={t}
+                        className="font-display text-xs px-2.5 py-1 rounded bg-[#F4F6F6] text-[#1E2A30] border border-[#D3DADC]"
+                      >
+                        {t}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* 技術スタック・保有資格 */}
+      <section className="space-y-6">
+        <h2 className="text-xl sm:text-2xl font-bold text-[#1E2A30]">
+          技術スタック・保有資格
+        </h2>
+
+        <div className="grid md:grid-cols-2 gap-4">
+          {skillGroups.map((group) => (
+            <div
+              key={group.title}
+              className="bg-white border border-[#D3DADC] rounded-lg p-5 space-y-3"
+            >
+              <h3 className="font-bold text-base text-[#1E2A30] pb-2 border-b border-[#D3DADC]">
+                {group.title}
+              </h3>
+              <ul className="space-y-2.5 text-sm">
+                {group.items.map((item) => (
+                  <li
+                    key={item.name}
+                    className="flex flex-wrap items-center justify-between gap-2"
+                  >
+                    <span className="font-display font-bold text-[#1E2A30]">
+                      {item.name}
+                    </span>
+                    <span
+                      className={`text-xs px-2 py-0.5 rounded border ${
+                        levelBadgeStyle[item.level]
+                      }`}
+                    >
+                      {levelLabel[item.level]}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <div className="bg-white border border-[#D3DADC] rounded-lg p-5">
+          <h3 className="text-sm font-bold text-[#1E2A30] mb-2">保有資格</h3>
+          <ul className="flex flex-wrap gap-x-6 gap-y-1.5 text-sm text-[#1E2A30]">
+            {qualifications.map((q) => (
+              <li key={q}>{q}</li>
             ))}
-          </div>
-        </section>
+          </ul>
+        </div>
+      </section>
 
-        {/* Portfolio Tech Stack Section */}
-        <section className="mt-20 p-8 border-2 border-dashed border-[#e9e9e7] rounded-2xl bg-white/50 relative">
-          <div className="absolute -top-3 left-8 bg-[#FDFDFD] px-2 text-xs font-bold text-[#37352f]/50 tracking-widest uppercase">
-            Appendix: Architecture
-          </div>
-          <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
-            <Code2 className="w-5 h-5 text-gray-700" />
-            このポートフォリオの構成技術
-          </h2>
-          <p className="text-sm text-[#37352f]/80 leading-relaxed mb-6">
-            本ポートフォリオサイトは、モダンなフロントエンド技術を用いて構築し、GitHub Pagesにて静的ホスティングを行っています。高いパフォーマンスでの配信と、コンポーネント指向による保守性の高いコードベースを意識して作成しました。
-          </p>
-          <div className="grid md:grid-cols-3 gap-6">
-            <div>
-              <strong className="block text-sm mb-1 text-[#37352f]">Next.js (App Router)</strong>
-              <p className="text-xs text-[#37352f]/60 leading-relaxed">
-                Reactフレームワークとして採用。ルーティングと静的サイト生成(SSG)機能である `output: "export"` を活用し、高速な描画を実現しています。
-              </p>
-            </div>
-            <div>
-              <strong className="block text-sm mb-1 text-[#37352f]">Tailwind CSS</strong>
-              <p className="text-xs text-[#37352f]/60 leading-relaxed">
-                ユーティリティファーストなCSSフレームワーク。柔軟なレスポンシブデザインと、保守性の高いスタイリングを定義しています。
-              </p>
-            </div>
-            <div>
-              <strong className="block text-sm mb-1 text-[#37352f]">Docker & GitHub Pages</strong>
-              <p className="text-xs text-[#37352f]/60 leading-relaxed">
-                ローカル環境の差異をなくすためDockerコンテナ化。静的リソースはGitHub Pagesにデプロイし、低コストかつスケーラブルなインフラ構成としています。
-              </p>
-            </div>
-          </div>
-        </section>
-
-      </main>
-    </div>
+      {/* このポートフォリオサイトの構成技術 */}
+      <section className="bg-white border border-[#D3DADC] rounded-lg p-6 space-y-4">
+        <h2 className="text-lg font-bold text-[#1E2A30]">
+          このポートフォリオサイトの構成技術
+        </h2>
+        <p className="text-sm text-[#1E2A30] leading-relaxed">
+          Next.js（App Router）の静的エクスポート（<code className="font-mono text-xs bg-[#F4F6F6] px-1.5 py-0.5 rounded">output: &quot;export&quot;</code>）と Tailwind CSS で構築し、GitHub Actions から GitHub Pages へ自動デプロイしています。
+        </p>
+      </section>
+    </main>
   );
 }
